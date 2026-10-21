@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f7f9" />
+  <meta name="description" content="Build and explore a personal, number-based timeline by MystrioCraft Studio." />
+  <title>MystrioCraft Studio — Timeline</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="Logo/MystrioCraft Studio Logo M.png">
+</head>
+<body>
+  <div class="welcome" id="welcomeBanner" role="status" aria-live="polite">
+    <span class="welcome-dot" aria-hidden="true"></span>
+    <span id="welcomeText">Welcome to MystrioCraft Studio</span>
+    <button class="welcome-close" id="closeWelcome" type="button" aria-label="Dismiss welcome message">×</button>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="MystrioCraft Studio home">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span id="brandName">MystrioCraft Studio</span>
+    </a>
+    <span class="header-note">A timeline builder</span>
+  </header>
+
+  <main id="top" class="page-shell">
+    <section class="hero" aria-labelledby="pageTitle">
+      <p class="eyebrow"><span class="eyebrow-line"></span> EXPLORE • RECORD • CONNECT</p>
+      <h1 id="pageTitle">Every moment has a place.</h1>
+      <p class="hero-description" id="pageIntro">Build a timeline of events, discoveries, and milestones. Add a point, give it a number, and explore its story.</p>
+      <div class="hero-actions">
+        <button class="button button-primary" id="addEventBtn" type="button"><span aria-hidden="true">＋</span> Add timeline event</button>
+        <button class="button button-secondary" id="settingsBtn" type="button"><span aria-hidden="true">⚙</span> Timeline settings</button>
+      </div>
+    </section>
+
+    <section class="panel editor-panel is-hidden" id="eventEditorPanel" aria-labelledby="eventEditorTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">TIMELINE EDITOR</p>
+          <h2 id="eventEditorTitle">Add an event</h2>
+        </div>
+        <button class="icon-button" type="button" data-close="eventEditorPanel" aria-label="Close event editor">×</button>
+      </div>
+      <form id="eventForm" class="form-grid">
+        <input type="hidden" id="eventId" />
+        <label class="field field-wide">
+          <span>Event title</span>
+          <input id="eventTitle" name="title" type="text" maxlength="100" placeholder="e.g. A major discovery" required />
+        </label>
+        <label class="field">
+          <span>Age / value (years ago)</span>
+          <input id="eventAge" name="age" type="number" min="0" step="any" placeholder="e.g. 4500000000" required />
+          <small>Enter a number within the timeline's start and end values.</small>
+        </label>
+        <label class="field">
+          <span>Short label (optional)</span>
+          <input id="eventLabel" name="label" type="text" maxlength="40" placeholder="e.g. First milestone" />
+        </label>
+        <label class="field field-wide">
+          <span>Description</span>
+          <textarea id="eventDescription" name="description" rows="4" maxlength="5000" placeholder="What happened at this point? Add the details here…" required></textarea>
+        </label>
+        <p class="form-error field-wide" id="eventError" role="alert"></p>
+        <div class="form-actions field-wide">
+          <button class="button button-primary" type="submit" id="saveEventBtn">Save event</button>
+          <button class="button button-secondary" type="button" data-close="eventEditorPanel">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel settings-panel is-hidden" id="settingsPanel" aria-labelledby="settingsTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">PERSONALIZE</p>
+          <h2 id="settingsTitle">Timeline settings</h2>
+        </div>
+        <button class="icon-button" type="button" data-close="settingsPanel" aria-label="Close settings">×</button>
+      </div>
+      <form id="settingsForm" class="form-grid">
+        <label class="field">
+          <span>Website name</span>
+          <input id="settingSiteName" type="text" maxlength="80" required />
+        </label>
+        <label class="field">
+          <span>Main heading</span>
+          <input id="settingHeadline" type="text" maxlength="120" required />
+        </label>
+        <label class="field field-wide">
+          <span>Website introduction</span>
+          <textarea id="settingIntro" rows="3" maxlength="400" required></textarea>
+        </label>
+        <label class="field field-wide">
+          <span>Welcome message</span>
+          <input id="settingWelcome" type="text" maxlength="100" required />
+        </label>
+        <div class="range-divider field-wide"><span>Timeline range</span><span>Values are measured in years ago</span></div>
+        <label class="field">
+          <span>Starting value (left)</span>
+          <input id="settingStartAge" type="number" min="0" step="any" required />
+        </label>
+        <label class="field">
+          <span>Ending value (right)</span>
+          <input id="settingEndAge" type="number" min="0" step="any" required />
+        </label>
+        <label class="field">
+          <span>Left endpoint label</span>
+          <input id="settingStartLabel" type="text" maxlength="50" required />
+        </label>
+        <label class="field">
+          <span>Right endpoint label</span>
+          <input id="settingEndLabel" type="text" maxlength="50" required />
+        </label>
+        <p class="field-hint field-wide">The starting value must be larger than the ending value. Existing events need to remain inside this range.</p>
+        <p class="form-error field-wide" id="settingsError" role="alert"></p>
+        <div class="form-actions field-wide">
+          <button class="button button-primary" type="submit">Save settings</button>
+          <button class="button button-secondary" type="button" data-close="settingsPanel">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="timeline-section" aria-labelledby="timelineHeading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">THE BIG PICTURE</p>
+          <h2 id="timelineHeading">Your timeline</h2>
+        </div>
+        <div class="event-counter"><span class="counter-dot" aria-hidden="true"></span><strong id="eventCount">0</strong><span id="eventCountLabel">events added</span></div>
+      </div>
+
+      <div class="timeline-card">
+        <div class="endpoint-row">
+          <div class="endpoint endpoint-start">
+            <span class="endpoint-caption" id="startEndpointLabel">START</span>
+            <strong id="startEndpointAge">18B years ago</strong>
+          </div>
+          <div class="scale-caption">TIME SCALE <span aria-hidden="true">↔</span></div>
+          <div class="endpoint endpoint-end">
+            <span class="endpoint-caption" id="endEndpointLabel">END</span>
+            <strong id="endEndpointAge">5.01K years ago</strong>
+          </div>
+        </div>
+        <div class="timeline-scroll" id="timelineScroll" tabindex="0" aria-label="Scrollable timeline">
+          <div class="timeline-stage" id="timelineStage">
+            <div class="timeline-line" aria-hidden="true"><span class="line-cap line-cap-start"></span><span class="line-cap line-cap-end"></span></div>
+            <div id="timelineMarkers" class="timeline-markers" aria-label="Timeline events"></div>
+          </div>
+        </div>
+        <div class="timeline-footer"><span><span class="legend-dot"></span> Select any numbered point to view its event</span><span id="rangeSummary">Values are proportional to the timeline range</span></div>
+      </div>
+    </section>
+
+    <section class="events-section" aria-labelledby="eventsHeading">
+      <div class="section-heading list-heading">
+        <div>
+          <p class="eyebrow">EVENT DIRECTORY</p>
+          <h2 id="eventsHeading">Timeline events</h2>
+          <p class="section-subtitle">Every event is listed here, so you can find and manage it even when the timeline gets busy.</p>
+        </div>
+        <div class="list-tools">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchEvents" type="search" placeholder="Search events…" aria-label="Search timeline events" /></label>
+          <button class="button button-secondary button-small" id="exportBtn" type="button">Export backup</button>
+          <button class="button button-secondary button-small" id="importBtn" type="button">Import backup</button>
+          <input type="file" id="importFile" accept="application/json,.json" class="visually-hidden" />
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <div class="event-list" id="eventList" aria-live="polite">
+          <div class="empty-state" id="emptyState">
+            <span class="empty-icon" aria-hidden="true">＋</span>
+            <h3>Your story starts here.</h3>
+            <p>Add your first event. It will appear as a numbered point on the timeline and as a card in this list.</p>
+            <button class="text-button" type="button" id="emptyAddBtn">Add your first event <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <aside class="detail-card" id="detailCard" aria-live="polite">
+          <div class="detail-empty">
+            <span class="detail-symbol" aria-hidden="true">↖</span>
+            <h3>Choose a point</h3>
+            <p>Select a numbered marker or an event card to read its description.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="data-note" aria-label="Data storage note">
+      <span class="data-note-icon" aria-hidden="true">✓</span>
+      <p><strong>Your timeline stays in this browser.</strong> Changes are saved automatically on this device. Use Export backup before switching browsers or devices.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="footerYear"></span> <span id="footerBrand">MystrioCraft Studio</span></span>
+    <span>Built to tell stories through time.</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
